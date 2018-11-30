@@ -1,30 +1,19 @@
 package TextCreation;
 
+import java.util.ArrayList;
+
 public class Sentence {
+    private ArrayList<Word> wordsOfTheSentence;
 
-    private Word[] words;
 
-    public Sentence(Word[] words) {
-        this.words = words;
+    public Sentence(ArrayList<Word> wordsOfTheSentence) {
+        this.wordsOfTheSentence = wordsOfTheSentence;
     }
 
-    public Word[] getWords() {
-        return words;
-    }
-
-    public static Word[] getSentenceFromUser(){
-        Word[] words = new Word[2];
-        for (int i = 0; i < words.length ; i++) {
-            words[i]=new Word(Word.getWordFromUser());
+    public static void printTheSentence(Sentence sentence){
+        for (Word word: sentence.wordsOfTheSentence) {
+            System.out.print(word.getWord() + " ");
         }
-        return words;
+        System.out.println(". ");
     }
-
-
-    public static void printWords(Word[] word){
-        for (int i = 0; i <word.length ; i++) {
-                System.out.print(word[i].getWord() + " ");
-            }
-        }
-
 }

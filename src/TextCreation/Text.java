@@ -1,71 +1,80 @@
 package TextCreation;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Text {
-    private Sentence[] sentences;
+    private ArrayList<Sentence> sentencesOfTheText;
     private String headline;
 
-
-    public Text(String headline, Sentence[] sentences) {
+    public Text(ArrayList<Sentence> sentencesOfTheText, String headline) {
+        this.sentencesOfTheText = sentencesOfTheText;
         this.headline = headline;
-        this.sentences = sentences;
     }
 
-    public Text(Sentence[] sentences) {
-        this.sentences = sentences;
+    public static void main(String[] args) {
+
+        ArrayList<Word> words1 = new ArrayList<>();
+        ArrayList<Word> words2 = new ArrayList<>();
+
+
+        words1.add(new Word("Первое"));
+        words1.add(new Word("слово"));
+        words1.add(new Word("первого"));
+        words1.add(new Word("предложения"));
+        words2.add(new Word("Первое"));
+        words2.add(new Word("слово"));
+        words2.add(new Word("второго"));
+        words2.add(new Word("предложения"));
+
+        Sentence sentence1 = new Sentence(words1);
+        Sentence sentence2 = new Sentence(words2);
+
+        ArrayList<Sentence> sentences = new ArrayList<>();
+
+        sentences.add(sentence1);
+        sentences.add(sentence2);
+
+        Text text = new Text(sentences, "Заголовок текста");
+
+        printHeadline(text);
+        printTheText(text);
+        addSentencetoTheText(sentenceFromUser(), text);
+        printTheText(text);
+
     }
 
-    public static Sentence[] getSentences(){
-        Sentence[] sentences = new Sentence[2];
-        System.out.println("введите два предложения по 2 слова, отделяя каждое слово клавишей Enter");
-        for (int i = 0; i < sentences.length ; i++) {
-            sentences[i] = new Sentence(Sentence.getSentenceFromUser());
-        }
-        return sentences;
-    }
+    public static Sentence sentenceFromUser(){
+        ArrayList<Word> words = new ArrayList<>();
+        String str;
+        System.out.println("Введите предложение, которым дополним текст,после каждого слова нажмине ENTER, в конце введите точку");
+        Scanner scanner = new Scanner(System.in);
+        do {
+            str = scanner.next();
+            if (str.equals(".")){break;}
+            words.add(new Word(str));
+        }while (!str.equals("."));
+        Sentence sentence = new Sentence(words);
 
-    public static Sentence addSentences(){
-        System.out.println();
-        System.out.println("введите предложение из двух слов, которое дополнит текст, разделяя слова ENTER");
-        Sentence sentence = new Sentence(Sentence.getSentenceFromUser());
         return sentence;
     }
 
-
-
-    public static String getHeadline(){
-        System.out.println("введите заголовок текста");
-        Scanner scanner = new Scanner(System.in);
-        String headline = scanner.nextLine();
-        return headline;
+    public static void addSentencetoTheText(Sentence sentence, Text text){
+        text.sentencesOfTheText.add(sentence);
     }
 
-    @Override
-    public String toString() {
-        return "TextCreation.Text{" +
-                "headline='" + headline + '\'' +
-                '}';
+    public static void printTheText(Text text){
+        for (Sentence sentence: text.sentencesOfTheText) {
+            Sentence.printTheSentence(sentence);
+        }
     }
 
-    public static void printText(Text text, Sentence...snt){
-            for (int i = 0; i < text.sentences.length; i++) {
-                text.sentences[i].printWords(text.sentences[i].getWords());
-                System.out.print(". ");
-            }
-            for (int i = 0; i < snt.length; i++) {
-                snt[i].printWords(snt[i].getWords());
-            }
+    public static void printHeadline(Text text){
+        System.out.println(text.headline);
     }
 
 
 
-//    public static void main(String[] args) {
-//        Text text = new Text (getHeadline(), getSentences());
-//        System.out.println(text.headline);
-//        printText(text);
-//        printText(text, addSentences());
-//    }
 
 
 }
